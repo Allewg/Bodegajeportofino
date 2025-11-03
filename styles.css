@@ -55,7 +55,7 @@ h3 { font-size: 1.25rem; }
 .hero h2 { margin-bottom: 0.5rem; }
 .subtitle { font-size: 1.1rem; color: var(--gray); margin-bottom: 1.5rem; }
 .btn-primary {
-    display: center;
+    display: inline-block; /* Corregido para centrar correctamente */
     background: var(--primary);
     color: white;
     padding: 0.75rem 1.5rem;
@@ -78,7 +78,7 @@ section { padding: 3rem 0; }
 }
 
 
-/* Responsive */
+/* Responsive para carousel */
 @media (max-width: 640px) {
     .carousel-slide img { height: 300px; }
     .carousel-btn { width: 40px; height: 40px; font-size: 1.4rem; }
@@ -107,7 +107,7 @@ section { padding: 3rem 0; }
 }
 
 
-/* Grid */
+/* Grid general */
 .grid { display: grid; gap: 1.5rem; }
 @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
@@ -133,20 +133,48 @@ section { padding: 3rem 0; }
 }
 .price { margin-top: 0.75rem; font-size: 1.1rem; color: var(--primary); font-weight: 600; }
 
-/* Beneficios */
+/* Beneficios - Grid corregido para 5 tarjetas en una fila en desktop */
 .grid-benefits {
-    display: grid; gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    display: grid; 
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Reducido de 240px a 200px para que quepan 5 en 1200px */
+}
+@media (min-width: 1200px) {
+    .grid-benefits {
+        grid-template-columns: repeat(5, 1fr); /* Fijo 5 columnas en desktop grande */
+    }
+}
+@media (max-width: 1199px) and (min-width: 768px) {
+    .grid-benefits {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas en tablet/desktop mediano */
+    }
+}
+@media (max-width: 767px) {
+    .grid-benefits {
+        grid-template-columns: 1fr; /* 1 columna en mobile */
+    }
 }
 .benefit {
-    text-align: center; padding: 1.5rem;
-    background: #f8f9fa; border-radius: var(--radius);
+    text-align: center; 
+    padding: 1.5rem;
+    background: #f8f9fa; 
+    border-radius: var(--radius);
+    transition: var(--transition); /* Hover suave agregado */
 }
-.icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+.benefit:hover {
+    transform: translateY(-4px); /* Elevación ligera */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.icon { 
+    font-size: 2rem; 
+    display: block; 
+    margin-bottom: 0.5rem; 
+}
 
 /* Testimonios */
 .testimonios {
-    background: #f0f7fa; text-align: center;
+    background: #f0f7fa; 
+    text-align: center;
 }
 .testimonio { max-width: 600px; margin: 0 auto; font-style: italic; }
 .testimonio strong { display: block; margin-top: 1rem; color: var(--primary); }
@@ -189,8 +217,36 @@ button { cursor: pointer; margin-top: 1rem; }
     text-align: center; padding: 2rem 0; font-size: 0.9rem;
 }
 
-/* Responsive */
+/* Responsive general */
 @media (max-width: 480px) {
     .nav { flex-direction: column; gap: 0.5rem; }
     .hero { padding: 3rem 0 2rem; }
+}
+.hero {
+    animation: fadeIn 1s ease-in-out; /* Animación de entrada suave */
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.hero .btn-success {
+    transition: all 0.3s ease; /* Transición suave */
+    box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2); /* Sombra verde para "éxito" */
+}
+.hero .btn-success:hover {
+    transform: scale(1.05); /* Escala ligera sin salir del contenedor */
+    box-shadow: 0 6px 12px rgba(0, 128, 0, 0.3);
+}
+.hero::before {
+    content: ''; /* O usa un icono SVG inline si prefieres */
+    position: absolute;
+    top: 20%; right: 10%; /* Posición flotante */
+    width: 60px; height: 60px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23f4a261" d="M5 3h14v2H5zM3 7v14h18V7H3zm2 2h14v12H5V9z"/></svg>') no-repeat; /* Icono SVG de caja */
+    opacity: 0.1; /* Transparente para no sobrecargar */
+    z-index: -1;
+}
+.hero {
+    position: relative; /* Para el ::before */
+    overflow: hidden; /* Evita desbordes */
 }
